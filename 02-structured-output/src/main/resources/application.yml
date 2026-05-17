@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: structured-output
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+            max-output-tokens: 800
+            temperature: 0.2
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.ai: INFO
