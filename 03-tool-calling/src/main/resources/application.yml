@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: tool-calling
+  datasource:
+    url: jdbc:h2:mem:triager;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  sql:
+    init:
+      mode: always
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+            temperature: 0.1
