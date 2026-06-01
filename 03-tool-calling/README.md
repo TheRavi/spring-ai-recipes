@@ -14,7 +14,7 @@ Paired with the blog post: [Tool calling in Spring AI: letting Gemini query your
 ## Requirements
 
 - Java 21+
-- Maven (the included `mvnw` wrapper works)
+- Maven 3.9+
 - A free Gemini API key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 
 ## Run it
@@ -24,7 +24,7 @@ cp .env.example .env
 # edit .env and paste in your real key
 
 set -a && source .env && set +a
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 The H2 database is created in memory and seeded from `schema.sql` and `data.sql` on startup. No external database needed.
@@ -65,7 +65,7 @@ curl -X POST http://localhost:8080/ask \
   -d '{"question": "What is a good severity level for a cosmetic UI bug?"}'
 ```
 
-Watch the application console. You will see lines like `>> Tool called: getServiceStatus(component=analytics)` showing exactly what the model decided to invoke.
+Watch the application logs. You will see lines like `>> Tool called: getServiceStatus(component=analytics)` showing exactly what the model decided to invoke.
 
 ## The interesting part
 

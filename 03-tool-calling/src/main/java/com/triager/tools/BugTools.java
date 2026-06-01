@@ -3,6 +3,8 @@ package com.triager.tools;
 import com.triager.model.PastBug;
 import com.triager.model.ServiceStatus;
 import com.triager.service.BugRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ import java.util.List;
 @Component
 public class BugTools {
 
+    private static final Logger log = LoggerFactory.getLogger(BugTools.class);
+
     private final BugRepository repository;
 
     public BugTools(BugRepository repository) {
@@ -37,7 +41,7 @@ public class BugTools {
         @ToolParam(description = "A component name (e.g. 'analytics', 'auth') or a keyword from the bug, e.g. 'export'")
         String term
     ) {
-        System.out.println(">> Tool called: findSimilarBugs(term=" + term + ")");
+        log.info(">> Tool called: findSimilarBugs(term={})", term);
         return repository.findSimilar(term);
     }
 
@@ -51,7 +55,7 @@ public class BugTools {
         @ToolParam(description = "The component to check, e.g. 'analytics', 'auth', 'billing', 'search', 'ui'")
         String component
     ) {
-        System.out.println(">> Tool called: getServiceStatus(component=" + component + ")");
+        log.info(">> Tool called: getServiceStatus(component={})", component);
         return repository.findStatus(component)
             .orElse(new ServiceStatus(component, "UNKNOWN", "No status record for this component"));
     }
