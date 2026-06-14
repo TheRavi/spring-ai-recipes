@@ -1,0 +1,26 @@
+INCIDENT-2041: Analytics CSV export times out for large date ranges
+
+Status: RESOLVED
+Component: analytics
+Severity: HIGH
+Date: 2026-02-14
+
+Summary:
+Customers on the enterprise plan reported that the CSV export on the analytics
+reports page produced an empty file when the selected date range exceeded 90
+days. Smaller ranges worked normally.
+
+Root cause:
+The export query had no pagination and ran against the full events table. For
+date ranges over 90 days the query exceeded the 30-second gateway timeout, the
+request was killed, and the export endpoint returned a 200 with an empty body
+instead of an error. The empty body was written to the CSV, producing a
+zero-row file.
+
+Resolution:
+Fixed in v2.4.0. Added keyset pagination to the export query and raised the
+export-specific timeout to 120 seconds. Also changed the endpoint to return a
+proper 504 on timeout instead of a misleading 200.
+
+Follow-up:
+Added an alert on export queries running longer than 60 seconds.

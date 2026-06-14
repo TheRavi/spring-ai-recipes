@@ -1,0 +1,26 @@
+INCIDENT-1990: SSO login redirect loop for multi-group users
+
+Status: RESOLVED
+Component: auth
+Severity: CRITICAL
+Date: 2026-01-09
+
+Summary:
+Users who belonged to more than one organization group were caught in an
+infinite redirect loop when logging in via SSO. Single-group users were
+unaffected. The issue blocked all multi-group enterprise logins for roughly
+four hours.
+
+Root cause:
+The SSO callback resolved the user's primary group nondeterministically when
+the user belonged to multiple groups. On each redirect a different group was
+chosen, the session assertion failed validation against the previously chosen
+group, and the flow restarted, producing the loop.
+
+Resolution:
+Fixed in v2.5.2. Group resolution now sorts groups deterministically and picks
+the highest-privilege group consistently. Added a guard that breaks the loop
+after three redirects and surfaces an explicit error.
+
+Follow-up:
+Added an integration test covering multi-group SSO login.

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rag-basics
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+            temperature: 0.2
+        # The embedding model is configured separately from chat, even though
+        # both use the same API key. This block is provided by the
+        # spring-ai-starter-model-google-genai-embedding dependency.
+        embedding:
+          text:
+            options:
+              model: gemini-embedding-001

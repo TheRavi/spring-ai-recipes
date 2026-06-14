@@ -1,0 +1,25 @@
+INCIDENT-2088: Billing invoice export fails intermittently under load
+
+Status: RESOLVED
+Component: billing
+Severity: MEDIUM
+Date: 2026-03-22
+
+Summary:
+The invoice export in the billing portal intermittently failed during
+end-of-month peak load. Users saw a spinner that never resolved. The export
+itself was a PDF batch job, unrelated to CSV reporting.
+
+Root cause:
+The billing export held a database connection for the full duration of the PDF
+render. During end-of-month peak, the connection pool was exhausted, and new
+export requests waited on a connection until they timed out client-side. This
+was a connection-pool contention problem, not a query-performance problem.
+
+Resolution:
+Fixed in v2.4.3. Moved PDF rendering to an async worker that releases the
+database connection before rendering. Raised the pool size for the billing
+service from 10 to 25.
+
+Follow-up:
+Added connection-pool saturation metrics to the billing dashboard.
