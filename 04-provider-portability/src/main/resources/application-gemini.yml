@@ -1,0 +1,16 @@
+# Active when running with the gemini profile (the default).
+# Requires the spring-ai-starter-model-google-genai dependency,
+# which the 'gemini' Maven profile puts on the classpath.
+
+app:
+  active-model-label: "gemini-2.5-flash (native Google GenAI)"
+
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: gemini-2.5-flash
+            temperature: 0.2

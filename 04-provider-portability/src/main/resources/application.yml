@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: provider-portability
+  profiles:
+    # Default to gemini. Override at runtime with:
+    #   --spring.profiles.active=openrouter
+    # or set SPRING_PROFILES_ACTIVE=openrouter
+    default: gemini

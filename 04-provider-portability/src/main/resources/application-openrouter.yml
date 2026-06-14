@@ -1,0 +1,23 @@
+# Active when running with the openrouter profile.
+# Requires the spring-ai-starter-model-openai dependency, which the
+# 'openrouter' Maven profile puts on the classpath. OpenRouter speaks the
+# OpenAI protocol, so the OpenAI starter talks to it with no special client.
+
+app:
+  active-model-label: "via OpenRouter (OpenAI-compatible endpoint)"
+
+spring:
+  ai:
+    openai:
+      api-key: ${OPENROUTER_API_KEY}
+      base-url: https://openrouter.ai/api
+      chat:
+        options:
+          # This single line is the true one-config-line model swap.
+          # Try any model from https://openrouter.ai/models, e.g.:
+          #   google/gemini-2.5-flash
+          #   anthropic/claude-3.5-sonnet
+          #   meta-llama/llama-3.3-70b-instruct
+          #   deepseek/deepseek-chat
+          model: nvidia/nemotron-3-ultra-550b-a55b:free
+          temperature: 0.2
